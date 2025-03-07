@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from .database import get_db
 from . import schemas, crud
-from .ai_model import model, predict_triage
+from .ai_models import model, predict_triage
 
 app = FastAPI()
 

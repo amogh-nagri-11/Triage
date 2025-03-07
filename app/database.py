@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 #Database URL (NO PASSWORD, as per your setup)
-DATABASE_URL = "postgresql://triage_user@localhost:5432/triage_db"
+DATABASE_URL = "postgresql://triage_user:triage@localhost:5432/triage_db"
 
 engine = create_engine(DATABASE_URL)
 

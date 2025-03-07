@@ -3,8 +3,11 @@ from sqlalchemy.orm import Session
 from .database import get_db
 from . import schemas, crud
 from .ai_models import model, predict_triage
+from .ai_models import model, predict_triage
+from .routers import triage 
 
 app = FastAPI()
+app.include_router(triage.router) 
 
 @app.post("/predict")
 def predict_and_store(patient: schemas.PatientCreate, db: Session = Depends(get_db)):

@@ -39,7 +39,6 @@ def train_triage_model(csv_path, output_model_path=r"C:\Users\aryan\OneDrive\Des
     joblib.dump(model, output_model_path)
 
 def predict_triage(model, age, weight, gender, symptoms):
-    gender_encoded = 1 if gender.lower() == "male" else 0
     symptoms_vector = [1 if symptom in symptoms else 0 for symptom in SYMPTOMS_LIST]
     input_features = np.array([[age, weight, gender_encoded] + symptoms_vector])
     input_df = pd.DataFrame(input_features, columns=["age", "weight", "gender_encoded"] + SYMPTOMS_LIST)

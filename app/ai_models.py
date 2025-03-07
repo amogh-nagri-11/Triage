@@ -11,7 +11,9 @@ SYMPTOMS_LIST = [
     "Difficulty Breathing", "Dizziness", "Fatigue", "Nausea", "Weakness"
 ]
 
-def train_triage_model(csv_path, output_model_path="models/triage_model.pkl"):
+csv_path = "D:\Coding\Triage.csv"
+
+def train_triage_model(csv_path, output_model_path="D:/Coding/ai-triage-model/app/models/triage_model.pkl"):
     df = pd.read_csv(csv_path)
 
     # Encode gender
@@ -44,4 +46,4 @@ def predict_triage(model, age, weight, gender, symptoms):
     return model.predict(input_df)[0]
 
 # Load model globally
-model = joblib.load("models/triage_model.pkl")
+model = joblib.load("D:/Coding/ai-triage-model/app/models/triage_model.pkl")

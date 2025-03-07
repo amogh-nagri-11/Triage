@@ -9,7 +9,14 @@ class PatientCreate(BaseModel):
     heart_rate: Optional[int] = None
     blood_pressure: Optional[int] = None
     temperature: Optional[float] = None
-    symptoms: List[str]
+    symptoms: List[str]  # Ensure symptoms is a List
+
+    class Config:
+        from_attributes = True  # Ensure compatibility with SQLAlchemy models
 
 class PatientResponse(PatientCreate):
-    severity: str
+    id: int  # Include ID field for responses
+    severity: str  # Include predicted severity
+
+    class Config:
+        from_attributes = True  # Ensure proper ORM conversion

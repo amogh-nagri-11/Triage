@@ -11,7 +11,7 @@ SYMPTOMS_LIST = [
     "Difficulty Breathing", "Dizziness", "Fatigue", "Nausea", "Weakness"
 ]
 
-csv_path = r"C:\Users\aryan\Downloads\patient_data.csv"
+csv_path = r"C:\Users\aryan\Downloads\triage_data.csv"
 
 def train_triage_model(csv_path, output_model_path=r"C:\Users\aryan\OneDrive\Desktop\Project8\Triage\app\triage_model.pkl"):
     df = pd.read_csv(csv_path)
@@ -25,7 +25,7 @@ def train_triage_model(csv_path, output_model_path=r"C:\Users\aryan\OneDrive\Des
 
     # Select features and target
     X = df[["age", "weight", "gender_encoded"] + SYMPTOMS_LIST]
-    y = df["triage_level"]
+    y = df["severity"]
 
     # Train model
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -39,11 +39,24 @@ def train_triage_model(csv_path, output_model_path=r"C:\Users\aryan\OneDrive\Des
     joblib.dump(model, output_model_path)
 
 def predict_triage(model, age, weight, gender, symptoms):
+    gender_encoded = 1 if gender.lower() == "male" else 0
     symptoms_vector = [1 if symptom in symptoms else 0 for symptom in SYMPTOMS_LIST]
     input_features = np.array([[age, weight, gender_encoded] + symptoms_vector])
     input_df = pd.DataFrame(input_features, columns=["age", "weight", "gender_encoded"] + SYMPTOMS_LIST)
     return model.predict(input_df)[0]
 
+#trying
+import os
+model_path = r"C:\Users\aryan\OneDrive\Desktop\Project8\Triage\app\triage_model.pkl"
+
+if not os.path.exists(model_path):
+    print("⚠️ Model file not found! Training a new model...")
+    train_triage_model(csv_path, model_path)  # Train and save the model
+
+# Load model after ensuring it exists
+model = joblib.load(model_path)
+print("✅ Model loaded successfully.")
+
 # Load model globally
-model = joblib.load(r"C:\Users\aryan\OneDrive\Desktop\Project8\Triage\app\triage_model.pkl")
+#model = joblib.load(r"C:\Users\aryan\OneDrive\Desktop\Project8\Triage\app\triage_model.pkl")
 

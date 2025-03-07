@@ -1,23 +1,25 @@
-from django.db import models
+from sqlalchemy import Column, Integer, String, Float, Boolean
+from sqlalchemy.ext.declarative import declarative_base
 
-class Patient(models.Model):
-    name = models.CharField(max_length=100)  
-    age = models.IntegerField() 
-    gender = models.CharField(max_length=20)  
-    weight = models.DecimalField(max_digits=5, decimal_places=2)  
-    heart_rate = models.IntegerField(null=True, blank=True)
-    blood_pressure = models.IntegerField(null=True, blank=True)
-    temperature = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True) 
-    chief_complaint_chest_pain = models.BooleanField(default=False)
-    chief_complaint_fever = models.BooleanField(default=False)
-    chief_complaint_headache = models.BooleanField(default=False)
-    chief_complaint_difficulty_breathing = models.BooleanField(default=False)
-    chief_complaint_abdominal_pain = models.BooleanField(default=False)
-    severity = models.CharField(max_length=50, default="Unknown")
+Base = declarative_base()
 
-    def __str__(self):
-        return f"Patient {self.id}: \n Name: {self.name} - Severity: {self.severity}"
-    
-    class Meta:
-        db_table = "patients"  # Optional: Explicitly setting table name (not required)
-        managed=True
+class Patient(Base):
+    __tablename__ = "patients"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), index=True)
+    age = Column(Integer, nullable=False)
+    gender = Column(String(20), nullable=False)
+    weight = Column(Float, nullable=False)
+    heart_rate = Column(Integer, nullable=True)
+    blood_pressure = Column(Integer, nullable=True)
+    temperature = Column(Float, nullable=True)
+    chief_complaint_chest_pain = Column(Boolean, default=False)
+    chief_complaint_fever = Column(Boolean, default=False)
+    chief_complaint_headache = Column(Boolean, default=False)
+    chief_complaint_difficulty_breathing = Column(Boolean, default=False)
+    chief_complaint_abdominal_pain = Column(Boolean, default=False)
+    severity = Column(String(50), default="Unknown")
+
+    def __repr__(self):
+        return f"Patient(id={self.id}, name={self.name}, severity={self.severity})"
